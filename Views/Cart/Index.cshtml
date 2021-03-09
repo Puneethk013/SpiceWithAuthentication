@@ -1,0 +1,38 @@
+﻿@model IEnumerable < SpiceWithoutAuthentication.Models.ShoppingCart>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<table>
+    <div>
+        @foreach (var item in Model)
+        {
+
+        <div class="container border border-info mx-auto p-2 my-1 bg-white">
+            <div class="row mx-auto">
+                <div class="col-sm-auto my-auto">
+                    <img src="data:image;base64,@item.MenuItem.Image" class="img-rounded" style="width : 130px;height: 130px;">
+                </div>
+                <div class="col-sm-9 my-auto">
+                    <div class="row">
+                        <div class="col-sm-6 text-info">@Html.DisplayFor(m =>item.MenuItem.Name)  </div>
+                        <div class="col-sm-6 text-right text-danger font-weight-bold">$ @Html.DisplayFor(m => item.MenuItem.Price)</div>
+                        <div class="col-sm-6 text-right text-danger font-weight-bold">$ @Html.DisplayFor(m => item.Count)</div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-sm justify-content-center">
+                            @Html.DisplayFor(m => item.MenuItem.Description)
+                        </div>
+                    </div>
+                    <div class="row float-right">
+                        <a href="#"><button class="btn btn-sm btn-success">Summary</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+    </div>
+</table>
+

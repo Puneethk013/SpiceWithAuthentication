@@ -1,0 +1,100 @@
+﻿@using SpiceWithoutAuthentication.Global
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Spice</title>
+
+    <link href="~/Content/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/fontawesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="~/Content/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    @*<script src="~/Content/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>*@
+
+    <style>
+        html {
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom ">
+        <div class="container inline-block ">
+            @*<a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/mild.png" />
+                    <img src="~/images/spicy.png" />
+                    <img src="~/images/verySpicy.png" />
+                   <label class="text-info" style="cursor:pointer">Spice</label>
+                </a>*@
+            <div id="banner" style="overflow: hidden;justify-content:space-around;">
+                <div class="" style="max-width: 20%;max-height: 20%;display: inline-block;">
+                    <a href="/Menu/Spicy?sname=NotSpicy"><img src="~/images/mild.png"></a>
+                </div>
+
+                <div class="" style="max-width: 100%;max-height: 100%;display: inline-block;">
+                    <a href="/Menu/Spicy?sname=Spicy"><img src="~/images/spicy.png"></a>
+                </div>
+
+                <div class="" style="max-width: 20%;max-height: 20%;display: inline-block;">
+                    <a href="/Menu/Spicy?sname=VerySpicy"><img src="~/images/verySpicy.png"></a>
+                </div>
+                <div class="" style="max-width: 20%;max-height: 20%;display: inline-block;">
+                    <label class="text-info" style="cursor:pointer">Spice</label>
+                </div>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
+                <div class="navbar-collapse collapse ml-5">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/" class="btn btn-sm text-white">Show All</a></li>
+                        <li><a href="/Menu/CategoryShow?catid=1" class="btn btn-sm text-white">APETIZER</a></li>
+                        <li><a href="/Menu/CategoryShow?catid=2" class="btn btn-sm text-white">MAIN COURSE</a></li>
+                        <li><a href="/Menu/CategoryShow?catid=3" class="btn btn-sm text-white">DESERT</a></li>
+                        <li><a href="/Menu/CategoryShow?catid=4" class="btn btn-sm text-white">BEVERAGES</a></li>
+                        <li><a href="/Cart/ShowCart" class="btn btn-sm text-white"><i class="fa fa-shopping-cart text-white" aria-hidden="true">&nbsp;(@GlobalVariables.cartItemCount)</i></a></li>
+                        @if (User.Identity.IsAuthenticated == false)
+                        { 
+                            <li><a href="/Account/Register" class="btn btn-sm btn-outline-light text-white ml-5 justify-content-end">Register</a></li>
+                            <li><a href="/Account/Login" class="btn btn-sm btn-outline-light text-white ml-3 float-right">Login</a></li>
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a href="/Account/MyProfile" class="btn btn-sm text-white ml-5">My Profile</a></li>
+                            <li class="btn btn-sm text-white ml-5">@Html.ActionLink("Logout", "Logout", "Account")</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @if (User.Identity.IsAuthenticated == true)
+        {
+            <h5 class="text-success btn btn-sm">
+                Welcome @User.Identity.Name
+            </h5>
+        }
+    </nav>
+
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <div class="footer container-fluid border-top justify-content-center pt-2  mt-2 footer text-white-50 text-center" style="background-color: #343a40;height: 50px;position : fixed; bottom : 0px;">
+            &copy; Spice @DateTime.Now
+    </div>
+
+
+
+</body>
+</html>

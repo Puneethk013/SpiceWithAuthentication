@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "twitter-bootstrap@4.6.0",
+      "destination": "Content/twitter-bootstrap/"
+    },
+    {
+      "library": "font-awesome@5.15.2",
+      "destination": "Content/font-awesome/"
+    },
+    {
+      "library": "jquery@3.5.1",
+      "destination": "Content/jquery/"
+    },
+    {
+      "library": "jquery-ajax-unobtrusive@3.2.6",
+      "destination": "Content/jquery-ajax-unobtrusive/"
+    }
+  ]
+}

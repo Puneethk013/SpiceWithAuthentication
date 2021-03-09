@@ -1,0 +1,42 @@
+﻿@model IEnumerable<SpiceWithoutAuthentication.Models.MenuItem>
+
+@{
+    ViewBag.Title = "Details";
+}
+<table>
+    @foreach (var item in Model)
+    {
+        <tr colspan="2">
+            <img src="data:image;base64,@item.Image" class="img-rounded" style="width : 260px;height: 260px;">
+        </tr>
+        <tr colspan="2">
+            <h1>@item.Name</h1>
+        </tr>
+        <tr>
+            <th><h3>Description :</h3></th>
+            <td><h5>@item.Description</h5></td>
+        </tr>
+        <tr>
+            <th><h3>Spicyness :</h3></th>
+            <td><h5>@item.Spicyness</h5></td>
+        </tr>
+        <tr>
+            <th><h3>Category :</h3></th>
+            <td><h5>@item.Category.Name</h5></td>
+        </tr>
+
+        <tr>
+            <th><h3>SubCategoryId :</h3></th>
+            <td><h5>@item.SubCategory.Name</h5></td>
+        </tr>
+        <tr>
+            <td>
+                <a class="btn btn-dark" href="/Cart/AddToCart/@item.Id"><button type="submit" class="btn btn-success">Add To Cart</button></a>
+                
+            </td>
+            <td>
+                <a class="btn btn-dark" href="/Menu/Index">Cancel</a>
+            </td>
+        </tr>
+    }
+</table>

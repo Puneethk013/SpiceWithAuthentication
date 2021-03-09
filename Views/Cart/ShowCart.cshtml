@@ -1,0 +1,137 @@
+﻿@using SpiceWithoutAuthentication.Models
+@model IEnumerable<ShoppingCart>
+@{
+    ViewBag.Title = "ShowCart";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="jumbotron bg-white border border-light rounded m-5 p-4">
+        <div class="container border border-secondary rounded mb-5">
+            <div class="row bg-dark p-2">
+                <div class="col-sm-12 my-auto">
+                    <i class='fa fa-shopping-cart text-white'></i><span class="text-white ml-3">Shopping Cart</span>
+                    <button class="btn btn-sm btn-outline-info float-right">Continue Shopping</button>
+                </div>
+            </div>
+            @foreach (var item in Model)
+            {
+        <div class="row p-3">
+            <div class="col-sm-auto p-0">
+                <img src="data:image;base64,@item.MenuItem.Image" class="img-rounded" style="width : 100px;height: 80px;">
+            </div>
+
+            <div class="col-sm-5">
+                <h5>@item.MenuItem.Name</h5>
+                <p>
+                    @item.MenuItem.Description.Substring(0, 90)...
+                </p>
+            </div>
+            <div class="col-sm-2 font-weight-bolder">
+                $<span class="itemPrice"> @item.MenuItem.Price</span> &nbsp; &#10005;  <span> @item.Count </span>
+            </div>
+            <div class="col-sm-3 text-center">
+                <a  href="CartItemCount?id=@item.Id&type=remove" class="btn btn-sm btn-danger" data-ajax="true" data-ajax-method="GET" data-ajax-success="AjaxSuccess1" data-ajax-failure="AjaxError1" font-weight-bold text-white" onclick="removeProduct(this)"><i class="fa fa-minus"></i></a>
+                <a href="CartItemCount?id=@item.Id&type=add" class="btn btn-sm btn-info font-weight-bold text-white" data-ajax="true" data-ajax-method="GET" data-ajax-success="AjaxSuccess" data-ajax-failure="AjaxError" onclick="addProduct(this)"><i class="fa fa-plus"></i></a>
+                <a href="DeleteItem?id=@item.Id" class="btn btn-sm btn-outline-danger font-weight-bold ml-3" data-ajax="true" data-ajax-method="GET"  data-ajax-success="AjaxSuccess1" data-ajax-failure="AjaxError1" onclick="hideBlock(this)"><i class="fa fa-trash-o"></i></a>
+            </div>
+            @*<div class="col-sm-3 text-center">
+            <a  class="btn btn-sm btn-danger" data-ajax="true" data-ajax-method="GET" data-ajax-url="/Cart/CartItemCount?id=@item.Id&type=remove"  data-ajax-success="AjaxSuccess1" data-ajax-failure="AjaxError1" font-weight-bold text-white" onclick="removeProduct(this)"><i class="fa fa-minus"></i></a>
+            <a  class="btn btn-sm btn-info font-weight-bold text-white" data-ajax="true" data-ajax-method="GET"  data-ajax-success="AjaxSuccess" data-ajax-url="CartItemCount?id=@item.Id&type=add" data-ajax-failure="AjaxError" onclick="addProduct(this)" ><i class="fa fa-plus"></i></a>
+            <a class="btn btn-sm btn-outline-danger font-weight-bold ml-3" data-ajax="true" data-ajax-method="GET" data-ajax-url="DeleteItem?id=@item.Id"  data-ajax-success="AjaxSuccess1" data-ajax-failure="AjaxError1"   onclick="hideBlock(this)"><i class="fa fa-trash-o"></i></a>
+                 </div>*@
+            
+            @*<a href="CartItemCount?id=@item.Id&type=add"><i class="fa fa-minus"></i></a>*@
+        
+        </div>
+                <hr class="mt-0" />
+            }
+            <div class="row mr-0 mt-2">
+                <div class="col-sm-3 form-group">
+                    <input type="text" class="form-control" placeholder="coupon code..." />
+                </div>
+                <div class="col-sm-2">
+                    <button style="width: 7.5rem;" class="btn btn-sm btn-outline-success">Apply</button>
+                </div>
+                <div class="col-sm float-right pr-0">
+                    <div class="container-sm border border-info rounded p-2 pr-0" style="width : 60%;">
+                        <span class="text-info">Total (USD)</span>
+                        <span class="text-info float-right font-weight-bolder">$<span id="totalPrice">0.0</span></span>
+                    </div>
+                </div>
+            </div>
+            <hr class="m-0" />
+            <div class="row p-2 m-0">
+                <div class="col-sm m-0">
+                   <a href="Summary" class="btn btn-success float-right" style="width:12rem;">Summary</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <a href="/Account/Register" class="btn btn-success">Register</a>
+    <a href="/Account/Login" class="btn btn-success">Login</a>
+}
+<script>
+
+    function AjaxSuccess() {  }
+    function AjaxError() { }
+    function AjaxSuccess1() { }
+    function AjaxError1() { }
+
+    let arr = document.getElementsByClassName("itemPrice");
+
+    var sum = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        let val = parseFloat(arr[i].innerText) * parseInt(arr[i].nextElementSibling.innerText);
+        sum = sum + val;
+    }
+    sum = Math.round(sum * 1000) / 1000;
+    document.getElementById("totalPrice").innerText = sum;
+
+    function addProduct(ele) {
+        let e = ele.parentNode.previousElementSibling;
+        let quantity = e.childNodes[1].nextElementSibling;
+        let count = parseInt(quantity.innerText);
+        quantity.innerText = count + 1;
+
+        let txt = e.childNodes[1].innerText;
+        addToTotalPrice(txt, count + 1, "add");
+    }
+
+    function removeProduct(ele) {
+        let e = ele.parentNode.previousElementSibling;
+        let quantity = e.childNodes[1].nextElementSibling;
+        let count = parseInt(quantity.innerText);
+
+        if (count > 1) {
+            quantity.innerText = count - 1;
+            let txt = e.childNodes[1].innerText;
+            addToTotalPrice(txt, count - 1, "remove");
+        }
+    }
+
+    function addToTotalPrice(price,count, op) {
+        let totalProductPrice = document.getElementById("totalPrice").innerText;
+
+        if (op == "add")
+            totalProductPrice = parseFloat(totalProductPrice) + (parseFloat(price));
+        else
+            totalProductPrice = parseFloat(totalProductPrice) - parseFloat(price);
+    
+        totalProductPrice = Math.round(totalProductPrice * 1000) / 1000;
+        document.getElementById("totalPrice").innerText = totalProductPrice;
+    }
+
+    function hideBlock(ele) {
+        let parent = ele.parentNode.parentNode;
+        parent.style.display = "none";
+        let totalProductPrice = parseFloat(document.getElementById("totalPrice").innerText);
+        let e = ele.parentNode.previousElementSibling;
+        let quantity = parseFloat(e.childNodes[1].nextElementSibling.innerText);
+        let price = parseFloat(e.childNodes[1].innerText);
+        document.getElementById("totalPrice").innerText = totalProductPrice - (price * quantity);
+    }
+</script>

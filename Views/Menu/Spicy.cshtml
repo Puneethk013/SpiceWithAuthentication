@@ -1,0 +1,46 @@
+﻿@model IEnumerable<SpiceWithoutAuthentication.Models.MenuItem>
+@{
+    ViewBag.Title = "Spicy";
+}
+<div class="border backgroundWhite">
+    <div>
+        @if (Model.Count() > 0)
+        {
+        <h2 class="text-info">@ViewBag.sname</h2>
+            <table class="table table-striped border">
+                @foreach (var item in Model)
+                {
+                    <div class="jumbotron my-5 mx-5">
+                        <div class="container border border-info mx-auto p-2 bg-white">
+                            <div class="row mx-auto">
+                                <div class="col-sm-auto my-auto">
+                                    <img src="data:image;base64,@item.Image" class="img-rounded" style="width : 130px;height: 130px;">
+                                </div>
+                                <div class="col-sm-10 my-auto">
+                                    <div class="row">
+                                        <div class="col-sm-6 text-info">@Html.DisplayFor(m => item.SubCategory.Name)  </div>
+                                        <div class="col-sm-6 text-right text-danger font-weight-bold">$ @Html.DisplayFor(m => item.Price)</div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm justify-content-center">
+                                            @Html.DisplayFor(m => item.Description)
+                                        </div>
+                                    </div>
+                                    <div class="row float-right">
+                                        <a href="/Menu/Details?id=@item.Id"><button class="btn btn-sm btn-success">Details</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </table> }
+        else
+        {
+            <p>No menu item exists...</p>}
+    </div>
+</div>
+
+</div>
+

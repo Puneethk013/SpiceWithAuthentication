@@ -1,0 +1,34 @@
+﻿@model SpiceWithoutAuthentication.Models.SubCategory
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<form action="/SubCategory/Create" method="post" enctype="multipart/form-data">
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+
+            @Html.LabelFor(m => m.Name)
+
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+
+        </div>
+        <div class="form-group col-md-6">
+            <label for="CategoryId">Category ID</label>
+            
+            <select class="form-control" id="CategoryId" name="CategoryId">
+                <option value="">Please select Category Id</option>
+                @foreach (var item in ViewBag.Category)
+                {
+                    <option value="@item.Id">@item.Name</option>
+
+                }
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Add SubCategory</button>
+    <a class="btn btn-dark" href="/SubCategory/Index">Cancel</a>
+</form>

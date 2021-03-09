@@ -1,0 +1,24 @@
+﻿@model SpiceWithoutAuthentication.Models.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+@using (Html.BeginForm("Login", "Account"))
+{
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { placeholder = "Name", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-md-12">
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Login</button>
+    <button type="reset" class="btn btn-success">Reset</button>
+    @Html.ValidationSummary();
+}

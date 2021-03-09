@@ -1,0 +1,28 @@
+﻿@model IEnumerable<SpiceWithoutAuthentication.Models.SubCategory>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<a class="btn btn-dark" href="/SubCategory/Create">Add SubCategory</a>
+<table class="table">
+    <tr>
+        <th>SubCategory Id</th>
+        <th>SubCategory Name</th>
+        <th>Category Id</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.CategoryId</td>
+        </tr>
+
+    }
+
+
+
+</table>
